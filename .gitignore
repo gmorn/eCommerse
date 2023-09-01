@@ -1,35 +1,31 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Node.js и npm
+node_modules/
+npm-debug.log
+yarn-error.log
 
-# dependencies
-/client/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# next.js
+# Next.js
 /.next/
-/out/
 
-# production
-/build
+# Express.js
+/build/
+/dist/
 
-# misc
+# Локальные настройки
+.env.local
+.env.development
+.env.production
+
+# Файлы конфигурации
+.eslintcache
+.prettierignore
+.prettiercache
+
+# Кэш
+.cache/
+.next/
+out/
+
+# Прочие временные и автоматически создаваемые файлы
+*.log
+*.swp
 .DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# local env files
-.env*.local
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
