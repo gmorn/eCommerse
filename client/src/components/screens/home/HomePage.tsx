@@ -26,7 +26,16 @@ export type T_Product = {
 export default function HomePage({}: Props) {
 	const [cartState, setCartState] = useState(false)
 
-	
+	useEffect(() => {
+		const data = localStorage.getItem('cartState')
+		if (data !== null) {
+			if (data === 'true') {
+				setCartState(true)
+			} else {
+				setCartState(false)
+			}
+		}
+	}, [])
 
 	const dispatch = useAppDispatch()
 	const products = useAppSelector((state) => state.products.products)
@@ -65,6 +74,7 @@ export default function HomePage({}: Props) {
 	}, [data])
 
 	const switchCartState = (value: boolean) => {
+		localStorage.setItem('cartState', JSON.stringify(value))
 		setCartState(value)
 	}
 

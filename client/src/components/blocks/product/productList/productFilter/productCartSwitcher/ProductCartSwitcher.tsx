@@ -1,5 +1,5 @@
 import SecondCartStateIcon from './SecondCartStateIcon'
-import FirstCartStateIcon from './firstCartStateIcon'
+import FirstCartStateIcon from './FirstCartStateIcon'
 import { SwitcherContainer } from './styles'
 
 

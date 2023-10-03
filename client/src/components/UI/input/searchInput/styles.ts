@@ -11,7 +11,7 @@ export const SearchForm = styled.label<T_FormProps>`
 	justify-content: center;
 	min-width: 30px;
 	cursor: pointer;
-	padding: 0 4px;
+	padding: 6px 10px;
 	position: absolute;
 	transition: width 300ms;
 	color: var(--color-text);

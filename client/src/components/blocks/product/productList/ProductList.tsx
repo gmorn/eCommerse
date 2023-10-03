@@ -19,7 +19,7 @@ const List = styled.div<T_State>`
 	gap: 24px;
 	width: 968px;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
-	margin: 0 auto;
+	margin: 20px auto;
 
 	${(props) =>
 		props.state &&

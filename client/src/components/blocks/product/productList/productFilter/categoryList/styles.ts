@@ -7,15 +7,15 @@ type T_Active = {
 export const Container = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 5px;
 `
 
 export const CategoriesList = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	padding: 25px 0 10px;
-	max-width: 500px;
+	padding: 25px 5px 10px;
+	max-width: 650px;
 	transition: 300ms;
 	overflow-x: scroll;
 	scrollbar-width: none;

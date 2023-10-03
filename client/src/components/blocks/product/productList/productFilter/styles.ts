@@ -3,8 +3,9 @@ import styled from 'styled-components'
 export const Container = styled.div`
 	display: flex;
 	justify-content: space-between;
-	width: 968px;
+	width: 1200px;
 	margin: 0 auto;
+	align-items: center;
 `
 export const SortBlock = styled.div``
 export const CategoryBlock = styled.div``

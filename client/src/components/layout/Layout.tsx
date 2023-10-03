@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Header from './Header'
+import { ThemeProvider } from '@mui/material/styles'
+import { getTheme } from '@/styles/MUITheme'
 
 type Props = {
 	children: React.ReactNode
@@ -19,6 +21,7 @@ const Container = styled.div`
 export default function Layout({ children }: Props) {
 	const router = useRouter()
 	const isAuthPage = router.pathname === '/auth'
+
 
 	const theme = useAppSelector((state) => state.theme.theme)
 	const dispatch = useAppDispatch()
@@ -59,8 +62,11 @@ export default function Layout({ children }: Props) {
 
 	return (
 		<Container>
+				<ThemeProvider theme={getTheme(theme)}>
 			{!isAuthPage && <Header />}
 			{children}
+				</ThemeProvider>
+
 		</Container>
 	)
 }
