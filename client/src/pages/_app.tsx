@@ -7,15 +7,26 @@ import '@fontsource/roboto/700.css'
 import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
 import { GlobalStyles } from '../styles/global'
-import '../styles/global.ts'
+
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false
+		}
+	}
+})
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
-		<Provider store={store}>
-			<Layout>
-				<GlobalStyles />
-				<Component {...pageProps} />
-			</Layout>
-		</Provider>
+		<QueryClientProvider client={queryClient}>
+			<Provider store={store}>
+				<Layout>
+					<GlobalStyles />
+					<Component {...pageProps} />
+				</Layout>
+			</Provider>
+		</QueryClientProvider>
 	)
 }

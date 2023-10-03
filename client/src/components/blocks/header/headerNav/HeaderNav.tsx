@@ -1,6 +1,7 @@
 import DropdownMenu from '@/components/UI/dropdown/DropdownMenu'
 import { host } from '@/constants/host'
 import { useAppDispatch, useAppSelector } from '@/hooks/store'
+import CookieService from '@/services/cookieService'
 import UserService from '@/services/userService'
 import { setTheme } from '@/store/theme/themeSlice'
 import { setIsLogin, setUserOrg, setUserRole } from '@/store/user/userSlice'
@@ -22,7 +23,6 @@ import {
 	MenuContent,
 	OutButton
 } from './styled'
-import CookieService from '@/services/cookieService'
 
 type Props = {}
 

@@ -10,6 +10,7 @@ export const OrgSwitcherContainer = styled.div`
   justify-content: center;
   margin: 20px 0;
   gap: 200px;
+  color: var(--color-text);
 `
 
 export const SwitcherButton = styled.div<T_Active>`

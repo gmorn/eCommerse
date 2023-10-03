@@ -14,6 +14,7 @@ export const SearchForm = styled.label<T_FormProps>`
 	padding: 0 4px;
 	position: absolute;
 	transition: width 300ms;
+	color: var(--color-text);
 
 	${(props) =>
 		props.border &&

@@ -5,7 +5,7 @@ import { setIsLogin, setUserOrg, setUserRole } from '@/store/user/userSlice'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import Header from './header/Header'
+import Header from './Header'
 
 type Props = {
 	children: React.ReactNode
@@ -33,23 +33,22 @@ export default function Layout({ children }: Props) {
 			try {
 				const { data } = await UserService.isUser()
 
-			if (typeof data === 'boolean') {
-				dispatch(setIsLogin(data))
-				if (data === true) {
-					const role = await UserService.getUserRole()
-					if (typeof role === 'number') {
-						dispatch(setUserRole(role))
-						if (role === 2 || 3 || 4) {
-							const org = await UserService.getUserOrg()
-							if (typeof org === 'string') dispatch(setUserOrg(org))
+				if (typeof data === 'boolean') {
+					dispatch(setIsLogin(data))
+					if (data === true) {
+						const role = await UserService.getUserRole()
+						if (typeof role === 'number') {
+							dispatch(setUserRole(role))
+							if (role === 2 || 3 || 4) {
+								const org = await UserService.getUserOrg()
+								if (typeof org === 'string') dispatch(setUserOrg(org))
+							}
 						}
 					}
 				}
-			}
 			} catch (error) {
-				console.log(error);
+				console.log(error)
 			}
-			
 		}
 		fetchIsUser()
 	}, [])
@@ -62,7 +61,6 @@ export default function Layout({ children }: Props) {
 		<Container>
 			{!isAuthPage && <Header />}
 			{children}
-			{/* {!isAuthPage && <Footer />} */}
 		</Container>
 	)
 }

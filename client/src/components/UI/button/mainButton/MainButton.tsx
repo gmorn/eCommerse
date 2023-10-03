@@ -17,7 +17,7 @@ const Button = styled.button`
 
 	&:hover {
 		transform: scale(1.05);
-		border: 1px solid var(--color-accent);
+		border: 2px solid var(--color-accent);
 		color: var(--color-accent);
 	}
 
@@ -25,7 +25,7 @@ const Button = styled.button`
     opacity: 0.5;
 		cursor: default;
 		&:hover {
-			border: 1px solid var(--color-text);
+			border: 2px solid var(--color-text);
 			color: var(--color-text);
 			transform: scale(1);
 		}

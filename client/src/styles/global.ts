@@ -1,12 +1,19 @@
 import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyles = createGlobalStyle`
-  *{
+  * {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
+    /* color: var(--color-text); */
+  }
+  
+  body {
     background: var(--color-main);
-    color: var(--color-text);
+    scrollbar-width: none;
+    scrollbar-color: transparent transparent;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar { width: 0; }
   }
  
   a { 

@@ -24,6 +24,7 @@ export const Pages = styled.div<T_translateParam>`
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+	/* justify-content: start; */
 	gap: 10px;
 	${(props) =>
 		props.transition &&
