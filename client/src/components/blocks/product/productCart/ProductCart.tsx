@@ -115,7 +115,7 @@ export default function ProductCart({ product, cartState }: Props) {
 						<ModeCommentIcon sx={{ height: '13px', width: '13px' }} />
 						{product.comment_count}
 					</IconBlock>
-					<DataBlock>{formatDate(product.data)}</DataBlock>
+					<DataBlock>{formatDate(product.date)}</DataBlock>
 				</Flex>
 			</InfBlock>
 		</CartContainer>

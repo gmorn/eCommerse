@@ -30,6 +30,6 @@ router.post(
 // 	'/product/getProductByOrgName/:orgName',
 // 	ProductController.getProducts
 // )
-router.get('/product/getProducts/:pageCount', ProductController.getProducts)
+router.post('/product/getProducts/:pageCount', ProductController.getProducts)
 router.get('/product/image/:imageName', ProductController.productImage)
 module.exports = router

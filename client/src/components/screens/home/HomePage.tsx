@@ -13,7 +13,7 @@ type Props = {}
 export type T_Product = {
 	category_id: number
 	comment_count: number
-	data: string
+	date: string
 	description: string
 	gallery: string[]
 	id: number
@@ -22,6 +22,8 @@ export type T_Product = {
 	price: number
 	rating: number
 }
+
+const pageLength = 4
 
 export default function HomePage({}: Props) {
 	const [cartState, setCartState] = useState(false)
@@ -44,7 +46,7 @@ export default function HomePage({}: Props) {
 		if (products.length === 0) {
 			return 1
 		} else {
-			return products.length / 2
+			return products.length / pageLength
 		}
 	}
 
@@ -58,7 +60,7 @@ export default function HomePage({}: Props) {
 		['products', pageCount],
 		() => ProductService.getProducts(pageCount),
 		{
-			enabled: pageCount !== products.length / 2 || products.length / 2 === 1,
+			enabled: pageCount !== products.length / pageLength || products.length / pageLength === 1,
 			refetchOnWindowFocus: false
 		}
 	)
@@ -67,7 +69,7 @@ export default function HomePage({}: Props) {
 		if (
 			data?.status === 200 &&
 			data?.data &&
-			pageCount !== products.length / 2
+			pageCount !== products.length / pageLength
 		) {
 			dispatch(addProducts([...products, ...data.data]))
 		}

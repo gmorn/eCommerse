@@ -7,11 +7,11 @@ type Props = {}
 const currencies = [
 	{
 		id: 0,
-		value: 'дорогие'
+		value: 'сначала дорогие'
 	},
 	{
 		id: 1,
-		value: 'дешевые'
+		value: 'сначала дешевые'
 	},
 	{
 		id: 2,
@@ -19,15 +19,15 @@ const currencies = [
 	},
 	{
 		id: 3,
-		value: 'по отзывам'
+		value: 'по количеству отзывов'
 	},
 	{
 		id: 4,
-		value: 'новые'
+		value: 'сначала новые'
 	},
 	{
 		id: 5,
-		value: 'старые'
+		value: 'сначала старые'
 	}
 ]
 

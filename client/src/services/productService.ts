@@ -36,7 +36,10 @@ export default class ProductService {
 	}
 	static async getProducts(pageCount: number): Promise<AxiosResponse> {
 		try {
-			const response = await axios.get(`${host}/product/getProducts/${pageCount}`)
+			const response = await axios.post(
+				`${host}/product/getProducts/${pageCount}`,
+				// { category: 4 }
+			)
 			return response
 		} catch (error: any) {
 			return error.response
