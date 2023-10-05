@@ -81,93 +81,68 @@ class ProductController {
 		const pageCount = req.params.pageCount
 		const { category, sortMethod } = req.body
 		const limitPage = 4
-		const offsetCount = (pageCount - 1) * 2
-		// что нужно добавить:
-		//	- товары конкретной категории
-		//	- список отсортированных товаров
-		//	- товары конкретной категории + метод сортировки
+		const offsetCount = (pageCount - 1) * limitPage
+		try {
+			let products
 
-		//	- товары конкретной категории
+			if (sortMethod !== undefined) {
+				const orderByClause = (() => {
+					switch (sortMethod) {
+						case 0:
+							return 'ORDER BY price DESC'
+						case 1:
+							return 'ORDER BY price ASC'
+						case 2:
+							return 'ORDER BY rating DESC'
+						case 3:
+							return 'ORDER BY comment_count DESC'
+						case 4:
+							return 'ORDER BY TO_TIMESTAMP(date, \'YYYY-MM-DD"T"HH24:MI:SS.USSTZH:TZM\') DESC'
+						case 5:
+							return 'ORDER BY TO_TIMESTAMP(date, \'YYYY-MM-DD"T"HH24:MI:SS.USSTZH:TZM\') ASC'
+						default:
+							return '' // Обработка неверного значения sortMethod
+					}
+				})()
 
-		//	- общая переменная для количесва товаров на одной стр.
-
-		// if (category) {
-		// 	const products = await db.query(
-		// 		`SELECT * FROM "products" WHERE category_id = $1
-		// 	ORDER BY id
-		// 	LIMIT $2 OFFSET $3`,
-		// 		[category, limitPage, offsetCount]
-		// 	)
-
-		// 	console.log(products.rows)
-		// } else {
-		// 	console.log(false)
-		// }
-
-		if (sortMethod) {
-			const products = async () => {
-				let orderByClause = ''
-				switch (sortMethod) {
-					case 0:
-						orderByClause = 'ORDER BY price DESC'
-						break
-					case 1:
-						orderByClause = 'ORDER BY price ASC'
-						break
-					case 2:
-						orderByClause = 'ORDER BY rating DESC'
-						break
-					case 3:
-						orderByClause = 'ORDER BY comment_count DESC'
-						break
-					case 4:
-						orderByClause =
-							'ORDER BY TO_TIMESTAMP(date, \'YYYY-MM-DD"T"HH24:MI:SS.USSTZH:TZM\') DESC'
-						break
-					case 5:
-						orderByClause =
-							'ORDER BY TO_TIMESTAMP(date, \'YYYY-MM-DD"T"HH24:MI:SS.USSTZH:TZM\') ASC'
-						break
-				}
-				if (category) {
-					const result = await db.query(
-						`SELECT * FROM "products" WHERE category_id = $1 $2 LIMIT $3 OFFSET $4`,
-						[category, orderByClause, limitPage, offsetCount]
+				if (category !== undefined) {
+					products = await db.query(
+						`SELECT * FROM "products" WHERE category_id = $1 ${orderByClause} LIMIT $2 OFFSET $3`,
+						[category, limitPage, offsetCount]
 					)
-
-					return result
 				} else {
-					const result = await db.query(
-						`SELECT * FROM "products" $1 LIMIT $2 OFFSET $3`,
-						[orderByClause, limitPage, offsetCount]
+					products = await db.query(
+						`SELECT * FROM "products" ${orderByClause} LIMIT $1 OFFSET $2`,
+						[limitPage, offsetCount]
 					)
-					return result
 				}
-			}
-		}
-
-		if (pageCount) {
-			try {
-				const products = await db.query(
+			} else if (category !== undefined) {
+				products = await db.query(
+					`SELECT * FROM "products" WHERE category_id = $1
+				ORDER BY id
+				LIMIT $2 OFFSET $3`,
+					[category, limitPage, offsetCount]
+				)
+			} else {
+				products = await db.query(
 					`SELECT * FROM "products"
+					ORDER BY TO_TIMESTAMP(date, \'YYYY-MM-DD"T"HH24:MI:SS.USSTZH:TZM\') DESC
 					LIMIT $1 OFFSET $2`,
 					[limitPage, offsetCount]
 				)
-
-				const productsWithGalleryArray = products.rows.map((product) => {
-					const galleryStr = product.gallery.replace(/\{|\}/g, '').trim()
-					product.gallery = galleryStr
-						.split(',')
-						.map((item) => item.replace(/"/g, ''))
-					return product
-				})
-
-				res.status(200).json(productsWithGalleryArray)
-			} catch (error) {
-				res.status(404)
 			}
-		} else {
-			res.status(400)
+
+			const productsWithGalleryArray = products.rows.map((product) => {
+				const galleryStr = product.gallery.replace(/\{|\}/g, '').trim()
+				product.gallery = galleryStr
+					.split(',')
+					.map((item) => item.replace(/"/g, ''))
+				return product
+			})
+
+			res.status(200).json(productsWithGalleryArray)
+		} catch (error) {
+			res.status(404)
 		}
 	}
 	// async getProductByOrgName(req, res) {

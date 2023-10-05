@@ -34,11 +34,14 @@ export default class ProductService {
 			return error.response
 		}
 	}
-	static async getProducts(pageCount: number): Promise<AxiosResponse> {
+	static async getProducts(pageCount: number, category?: number | undefined, sortMethod?: number | undefined): Promise<AxiosResponse> {
 		try {
 			const response = await axios.post(
 				`${host}/product/getProducts/${pageCount}`,
-				// { category: 4 }
+				{
+					category: category,
+					sortMethod: sortMethod
+				}
 			)
 			return response
 		} catch (error: any) {

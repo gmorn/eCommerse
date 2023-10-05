@@ -40,13 +40,20 @@ export default function HomePage({}: Props) {
 	}, [])
 
 	const dispatch = useAppDispatch()
-	const products = useAppSelector((state) => state.products.products)
+	const { products, activeCategory, activeSortMethod } = useAppSelector(
+		(state) => state.products
+	)
+
+	const [category, setCategory] = useState<number | undefined>(activeCategory)
+	const [sortMethod, setSortMethod] = useState<number | undefined>(
+		activeSortMethod
+	)
 
 	const getPageCount = (): number => {
 		if (products.length === 0) {
 			return 1
 		} else {
-			return products.length / pageLength
+			return Math.ceil(products.length / pageLength)
 		}
 	}
 
@@ -57,21 +64,41 @@ export default function HomePage({}: Props) {
 	}, [pageCount])
 
 	const { data, isLoading, isError }: UseQueryResult<AxiosResponse> = useQuery(
-		['products', pageCount],
-		() => ProductService.getProducts(pageCount),
+		['products', pageCount, activeCategory, activeSortMethod],
+		() =>
+			ProductService.getProducts(Math.ceil(products.length / pageLength) + 1, activeCategory, activeSortMethod),
 		{
-			enabled: pageCount !== products.length / pageLength || products.length / pageLength === 1,
+			enabled:
+				pageCount !== Math.ceil(products.length / pageLength) ||
+				products.length / pageLength === 1 ||
+				category !== activeCategory ||
+				sortMethod !== activeSortMethod,
 			refetchOnWindowFocus: false
 		}
 	)
 
 	useEffect(() => {
+		setPageCount(getPageCount())
+	}, [
+		activeCategory, activeSortMethod
+	])
+
+	useEffect(() => {
 		if (
-			data?.status === 200 &&
-			data?.data &&
-			pageCount !== products.length / pageLength
+			(category !== activeCategory || sortMethod !== activeSortMethod) &&
+			data?.status === 200
 		) {
-			dispatch(addProducts([...products, ...data.data]))
+			dispatch(addProducts(data.data))
+			setCategory(activeCategory)
+			setSortMethod(activeSortMethod)
+		} else {
+			if (
+				data?.status === 200 &&
+				data?.data &&
+				pageCount !== Math.ceil(products.length / pageLength)
+			) {
+				dispatch(addProducts([...products, ...data.data]))
+			}
 		}
 	}, [data])
 

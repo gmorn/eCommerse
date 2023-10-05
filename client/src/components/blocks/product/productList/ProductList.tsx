@@ -31,11 +31,14 @@ const List = styled.div<T_State>`
 export default function ProductList({
 	children,
 	cartState,
-	toggleCartState
+	toggleCartState,
 }: Props) {
 	return (
 		<ProductListContainer>
-			<ProductFilter toggleCartState={toggleCartState} cartState={cartState} />
+			<ProductFilter
+				toggleCartState={toggleCartState}
+				cartState={cartState}
+			/>
 			<List state={cartState}>{children}</List>
 		</ProductListContainer>
 	)
