@@ -3,6 +3,7 @@ import { styled } from '@mui/system'
 
 export const CustomTextField = styled(TextField)`
 	& .MuiInputBase-root {
+		border-width: 3px;
 		&::before {
 			border-bottom: 2px solid var(--color-text); // Черная обводка до фокуса
 		}

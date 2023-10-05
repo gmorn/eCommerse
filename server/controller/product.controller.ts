@@ -79,58 +79,73 @@ class ProductController {
 	}
 	async getProducts(req, res) {
 		const pageCount = req.params.pageCount
-		const { category, sortMethod } = req.body
+		const { searchQuery, category, sortMethod } = req.body
 		const limitPage = 4
 		const offsetCount = (pageCount - 1) * limitPage
 		try {
 			let products
 
-			if (sortMethod !== undefined) {
-				const orderByClause = (() => {
-					switch (sortMethod) {
-						case 0:
-							return 'ORDER BY price DESC'
-						case 1:
-							return 'ORDER BY price ASC'
-						case 2:
-							return 'ORDER BY rating DESC'
-						case 3:
-							return 'ORDER BY comment_count DESC'
-						case 4:
-							return 'ORDER BY TO_TIMESTAMP(date, \'YYYY-MM-DD"T"HH24:MI:SS.USSTZH:TZM\') DESC'
-						case 5:
-							return 'ORDER BY TO_TIMESTAMP(date, \'YYYY-MM-DD"T"HH24:MI:SS.USSTZH:TZM\') ASC'
-						default:
-							return '' // Обработка неверного значения sortMethod
-					}
-				})()
 
-				if (category !== undefined) {
-					products = await db.query(
-						`SELECT * FROM "products" WHERE category_id = $1 ${orderByClause} LIMIT $2 OFFSET $3`,
-						[category, limitPage, offsetCount]
-					)
-				} else {
-					products = await db.query(
-						`SELECT * FROM "products" ${orderByClause} LIMIT $1 OFFSET $2`,
-						[limitPage, offsetCount]
-					)
+
+			const orderByClause = (() => {
+				switch (sortMethod) {
+					case 0:
+						return 'ORDER BY price DESC'
+					case 1:
+						return 'ORDER BY price ASC'
+					case 2:
+						return 'ORDER BY rating DESC'
+					case 3:
+						return 'ORDER BY comment_count DESC'
+					case 4:
+						return 'ORDER BY TO_TIMESTAMP(date, \'YYYY-MM-DD"T"HH24:MI:SS.USSTZH:TZM\') DESC'
+					case 5:
+						return 'ORDER BY TO_TIMESTAMP(date, \'YYYY-MM-DD"T"HH24:MI:SS.USSTZH:TZM\') ASC'
+					default:
+						return ''
 				}
-			} else if (category !== undefined) {
+			})()
+
+
+
+
+
+			if (
+				searchQuery !== undefined &&
+				category !== undefined
+		) {
 				products = await db.query(
-					`SELECT * FROM "products" WHERE category_id = $1
-				ORDER BY id
-				LIMIT $2 OFFSET $3`,
-					[category, limitPage, offsetCount]
+						`SELECT * FROM "products"
+						WHERE name ILIKE '%' || $1 || '%'
+						AND category_id = $2
+						${orderByClause ? orderByClause : ''}
+						LIMIT $3 OFFSET $4`,
+						[searchQuery, category, limitPage, offsetCount]
 				)
-			} else {
+		} else if (searchQuery !== undefined) {
 				products = await db.query(
-					`SELECT * FROM "products"
-					ORDER BY TO_TIMESTAMP(date, \'YYYY-MM-DD"T"HH24:MI:SS.USSTZH:TZM\') DESC
-					LIMIT $1 OFFSET $2`,
-					[limitPage, offsetCount]
+						`SELECT * FROM "products"
+						WHERE name ILIKE '%' || $1 || '%'
+						${orderByClause ? orderByClause : ''}
+						LIMIT $2 OFFSET $3`,
+						[searchQuery, limitPage, offsetCount]
 				)
-			}
+		} else if (category !== undefined) {
+				products = await db.query(
+						`SELECT * FROM "products"
+						WHERE category_id = $1
+						${orderByClause ? orderByClause : ''}
+						LIMIT $2 OFFSET $3`,
+						[category, limitPage, offsetCount]
+				)
+		} else {
+				products = await db.query(
+						`SELECT * FROM "products"
+						${orderByClause ? orderByClause : ''}
+						LIMIT $1 OFFSET $2`,
+						[limitPage, offsetCount]
+				)
+		}	
 
 			const productsWithGalleryArray = products.rows.map((product) => {
 				const galleryStr = product.gallery.replace(/\{|\}/g, '').trim()

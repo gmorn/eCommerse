@@ -57,9 +57,10 @@ export default function SelectSortMethod({}: Props) {
 				id='outlined-select-currency'
 				select
 				label='выберите метод сортировки'
-				value={selectedValue}
+				value={activeSortMethod}
 				onChange={handleChange}
 				size='small'
+				sx={{borderWidth: '3px'}}
 			>
 				{currencies.map((option) => (
 					<MenuItem

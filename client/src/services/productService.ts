@@ -39,8 +39,9 @@ export default class ProductService {
 			const response = await axios.post(
 				`${host}/product/getProducts/${pageCount}`,
 				{
-					category: category,
-					sortMethod: sortMethod
+					searchQuery: 'the',
+					category,
+					sortMethod
 				}
 			)
 			return response

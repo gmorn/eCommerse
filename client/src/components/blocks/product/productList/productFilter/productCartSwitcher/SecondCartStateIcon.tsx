@@ -36,7 +36,7 @@ export default function SecondCartStateIcon({ active, onClick }: Props) {
 				height='11.8'
 				rx='1.9'
 				stroke={active ? 'var(--color-accent)' : 'var(--color-text)'}
-				strokeWidth='2.2'
+				strokeWidth='1.5'
 			/>
 			<rect
 				x='1.1'
@@ -45,7 +45,7 @@ export default function SecondCartStateIcon({ active, onClick }: Props) {
 				height='11.8'
 				rx='1.9'
 				stroke={active ? 'var(--color-accent)' : 'var(--color-text)'}
-				strokeWidth='2.2'
+				strokeWidth='1.5'
 			/>
 		</svg>
 	)

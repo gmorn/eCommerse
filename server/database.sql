@@ -76,7 +76,7 @@ CREATE TABLE products (
   rating REAL,
   comment_count INTEGER,
   organization_id INTEGER,
-  data VARCHAR(255),
+  date VARCHAR(255),
 
   FOREIGN KEY (organization_id) REFERENCES organizations (id)
   FOREIGN KEY (category_id) REFERENCES categories (id)

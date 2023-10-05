@@ -31,7 +31,7 @@ export const CategoryItem = styled.div<T_Active>`
 	padding: 7px;
 	color: var(--color-text);
 	border-radius: 10px;
-	border: 2px solid var(--color-text);
+	border: 1px solid var(--color-text);
 	white-space: nowrap;
 	cursor: pointer;
 	transition: 300ms;
@@ -44,6 +44,6 @@ export const CategoryItem = styled.div<T_Active>`
 		props.active &&
 		css`
 			color: var(--color-accent);
-			border: 2px solid var(--color-accent);
+			border: 1px solid var(--color-accent);
 		`}
 `
